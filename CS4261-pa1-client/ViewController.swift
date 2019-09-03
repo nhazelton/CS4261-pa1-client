@@ -9,12 +9,16 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    @IBOutlet weak var dataLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
 
+    @IBAction func getDataButtonAction(_ sender: UIButton) {
+        dataLabel.text = "Got something cool"
+    }
 }
 
