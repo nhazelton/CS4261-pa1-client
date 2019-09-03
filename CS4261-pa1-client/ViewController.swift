@@ -18,13 +18,27 @@ class ViewController: UIViewController {
 
 
     @IBAction func getDataButtonAction(_ sender: UIButton) {
-        let url = URL(string: "https://postman-echo.com/get?text=hey")!
-        
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            guard let data = data else { return }
+        let url = URL(string: "https://6h22lym61k.execute-api.us-east-1.amazonaws.com/example")!
+        let parameters = ["exampleString": "hey"]
+        let session = URLSession.shared
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+            completion(nil, error)
+        }
+
+        let task = session.dataTask(with: request) {(data, response, error) in
+            guard error == nil else { 
+                completion(nil, error)
+                return
+            }
             print(String(data: data, encoding: .utf8)!)
         }
-        
+
         task.resume()
     }
 }
