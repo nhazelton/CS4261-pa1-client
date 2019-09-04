@@ -52,6 +52,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="dataField" destination="2Yu-I1-f7E" id="AMs-8I-G1h"/>
                         <outlet property="dataLabel" destination="hSY-hj-gfq" id="DfS-Us-Zhk"/>
                     </connections>
                 </viewController>

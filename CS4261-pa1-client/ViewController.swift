@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var dataLabel: UILabel!
+    @IBOutlet weak var dataField: UITextField!
+    
     var semaphore = DispatchSemaphore(value: 0)
     
     struct Response: Codable {
@@ -25,7 +27,7 @@ class ViewController: UIViewController {
         var newLabel: String? = nil
         
         let url = URL(string: "https://6h22lym61k.execute-api.us-east-1.amazonaws.com/dev/example")!
-        let parameters = ["exampleString": "hey"]
+        let parameters = ["exampleString": dataField.text]
         let session = URLSession.shared
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
