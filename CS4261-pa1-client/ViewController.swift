@@ -34,15 +34,15 @@ class ViewController: UIViewController {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
         } catch let error {
             print(error.localizedDescription)
-            completion(nil, error)
+            //completion(nil, error)
         }
 
         let task = session.dataTask(with: request) {(data, response, error) in
             guard error == nil else { 
-                completion(nil, error)
+                //completion(nil, error)
                 return
             }
-            print(String(data: data, encoding: .utf8)!)
+            print(String(data: data!, encoding: .utf8)!)
         }
 
         task.resume()
