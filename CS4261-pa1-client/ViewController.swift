@@ -45,7 +45,7 @@ class ViewController: UIViewController {
             
             guard let data = data else { return }
             let dataString = String(data: data, encoding: .utf8)!
-            newLabel = String(dataString.dropFirst(9))
+            newLabel = String(dataString.dropFirst(12))
             self.semaphore.signal()
         }
 
