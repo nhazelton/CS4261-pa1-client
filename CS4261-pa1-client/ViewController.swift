@@ -10,12 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var dataLabel: UILabel!
+    var semaphore = DispatchSemaphore(value: 0)
     
     struct Response: Codable {
-        let userId: Int
-        let id: Int
-        let title: String
-        let completed: Bool
+        let message: String
     }
     
     override func viewDidLoad() {
@@ -24,7 +22,9 @@ class ViewController: UIViewController {
     }
 
     @IBAction func getDataButtonAction(_ sender: UIButton) {
-        let url = URL(string: "https://6h22lym61k.execute-api.us-east-1.amazonaws.com/example")!
+        var newLabel: String? = nil
+        
+        let url = URL(string: "https://6h22lym61k.execute-api.us-east-1.amazonaws.com/dev/example")!
         let parameters = ["exampleString": "hey"]
         let session = URLSession.shared
         var request = URLRequest(url: url)
@@ -34,18 +34,23 @@ class ViewController: UIViewController {
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
         } catch let error {
             print(error.localizedDescription)
-            //completion(nil, error)
         }
 
         let task = session.dataTask(with: request) {(data, response, error) in
             guard error == nil else { 
-                //completion(nil, error)
                 return
             }
-            print(String(data: data!, encoding: .utf8)!)
+            
+            guard let data = data else { return }
+            let dataString = String(data: data, encoding: .utf8)!
+            newLabel = String(dataString.dropFirst(9))
+            self.semaphore.signal()
         }
 
         task.resume()
+        
+        semaphore.wait(timeout: .now() + 5.0) // 5 sec timeout
+        dataLabel.text = newLabel
     }
 }
 
